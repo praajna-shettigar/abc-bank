@@ -9,6 +9,10 @@ public class Customer {
     private String name;
     private List<Account> accounts;
 
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
     public Customer(String name) {
         this.name = name;
         this.accounts = new ArrayList<Account>();

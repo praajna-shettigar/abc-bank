@@ -51,9 +51,23 @@ public class BankTest {
         assertEquals(170.0, bank.totalInterestPaid(), DOUBLE_DELTA);
     }
 
+    //Super Max saving accounts
+    @Test
+    public void super_maxi_saving_account(){
+        Bank bank = new Bank();
+        Account checkingAccount = new Account(Account.SUPER_SAVINGS);
+
+        bank.addCustomer(new Customer("Bill").openAccount(checkingAccount));
+
+        checkingAccount.deposit(3000.0);
+
+        assertEquals(230.0, bank.totalInterestPaid(), DOUBLE_DELTA);
+
+    }
+
     //first customer success check
     @Test
-    public void testGetFirstCustomerSuccess(){
+    public void testGetFirstCustomerSuccess() {
         Bank bank = new Bank();
         Customer customer1 = new Customer("Alice");
         Customer customer2 = new Customer("Bob");
@@ -64,22 +78,22 @@ public class BankTest {
         assertEquals("Alice", bank.getFirstCustomer());
     }
 
-    @Test
-    public void testGetFirstCustomerNoCustomer(){
+    @Test(expected = IllegalStateException.class)
+    public void testGetFirstCustomerWithNoCustomers() {
         Bank bank = new Bank();
-        //As there is no customer should return "Error"
-        assertEquals("Error", bank.getFirstCustomer());
+
+        bank.getFirstCustomer(); // Should throw IllegalStateException
     }
 
-    @Test
-    public void testGetFirstCustomerNullCustomers(){
+
+    @Test(expected = IllegalStateException.class)
+    public void testGetFirstCustomerNullCustomers() {
         Bank bank = new Bank();
 
-        //manually setting customers to null
-        bank.customers = null;
+        // Manually setting customers to null
+        bank.setCustomers(null);
 
-        assertEquals("Error", bank.getFirstCustomer());
-
+        bank.getFirstCustomer(); // This should throw IllegalStateException
     }
 
 }

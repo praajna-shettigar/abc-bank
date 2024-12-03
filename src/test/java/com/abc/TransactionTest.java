@@ -2,6 +2,9 @@ package com.abc;
 
 import org.junit.Test;
 
+import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TransactionTest {
@@ -14,7 +17,7 @@ public class TransactionTest {
     @Test
     public void testTransactionAmount(){
         double amount = 100.0;
-        Transcation transaction = new Transaction(amount);
+        Transaction transaction = new Transaction(amount);
         assertEquals(amount,transaction.amount,0.0);
     }
 
@@ -23,7 +26,7 @@ public class TransactionTest {
         Transaction transaction = new Transaction(100.0);
         Date now = DateProvider.getInstance().now();
 
-        //samll time difference between instance creation and test run
+        //small time difference between instance creation and test run
         assertTrue(transaction.transactionDate.getTime()<= now.getTime());
 
     }

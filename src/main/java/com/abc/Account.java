@@ -70,14 +70,41 @@ public void withdraw(double amount) {
     }
 
     //Transfer funds between accounts
-    public void transfer(Account toAccount, double amount){
-        if(this==toAccount){
-            throw new IllegalArgumentException("Cannot transfer to the same account");
-            
+//    public void transfer(Account toAccount, double amount){
+//        if(this==toAccount){
+//            throw new IllegalArgumentException("Cannot transfer to the same account");
+//
+//        }
+//        this.withdraw(amount);
+//        toAccount.deposit(amount);
+//    }
+
+    public void transfer(Account toAccount, double amount, Customer customer) {
+        // Null checks
+        if (toAccount == null) {
+            throw new IllegalArgumentException("Target account cannot be null.");
         }
-        this.withdrow(amount);
-        toAccount.deposit(amount);
+
+        // Same account check
+        if (this == toAccount) {
+            throw new IllegalArgumentException("Cannot transfer to the same account.");
+        }
+
+        // Ownership check - Ensure both accounts belong to the same customer
+        if (!customer.getAccounts().contains(this) || !customer.getAccounts().contains(toAccount)) {
+            throw new IllegalArgumentException("Both accounts must belong to the same customer.");
+        }
+
+        // Transaction execution with rollback handling
+        try {
+            this.withdraw(amount);
+            toAccount.deposit(amount);
+        } catch (IllegalArgumentException ex) {
+            // Handle rollback in case of failure
+            throw new IllegalStateException("Transfer failed: " + ex.getMessage());
+        }
     }
+
 
     public double sumTransactions() {
        return checkIfTransactionsExist(true);

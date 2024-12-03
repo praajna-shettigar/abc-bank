@@ -2,9 +2,12 @@ package com.abc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Bank {
     private List<Customer> customers;
+
+    private static final Logger LOGGER = Logger.getLogger(Bank.class.getName());
 
     public Bank() {
         customers = new ArrayList<Customer>();
@@ -35,12 +38,14 @@ public class Bank {
     }
 
     public String getFirstCustomer() {
-        try {
-            customers = null;
-            return customers.get(0).getName();
-        } catch (Exception e){
-            e.printStackTrace();
-            return "Error";
+        if (customers == null || customers.isEmpty()) {
+            LOGGER.warning("Customer list is either null or empty");
+            throw new IllegalStateException("No customers available");
         }
+        return customers.get(0).getName();
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
     }
 }
