@@ -8,6 +8,8 @@ public class Account {
     public static final int CHECKING = 0;
     public static final int SAVINGS = 1;
     public static final int MAXI_SAVINGS = 2;
+    //Adding new account type
+    public static final int SUPER_SAVINGS = 3;
 
     private final int accountType;
     public List<Transaction> transactions;
@@ -50,9 +52,31 @@ public void withdraw(double amount) {
                 if (amount <= 2000)
                     return 20 + (amount-1000) * 0.05;
                 return 70 + (amount-2000) * 0.1;
+            case SUPER_SAVINGS: //new account type
+                return calculateMaxiSavingsInterest(amount) + (amount *0.02);
             default:
                 return amount * 0.001;
         }
+    }
+
+    //private method for maxi savings interest calculation
+    private double calculateMaxiSavingsInterest(double amount){
+        if(amount <= 1000)
+            return amount * 0.02;
+        if(amount <=2000)
+            return 20+(amount-1000)*0.05;
+        return 70 + (amount -2000) * 0.1;
+
+    }
+
+    //Transfer funds between accounts
+    public void transfer(Account toAccount, double amount){
+        if(this==toAccount){
+            throw new IllegalArgumentException("Cannot transfer to the same account");
+            
+        }
+        this.withdrow(amount);
+        toAccount.deposit(amount);
     }
 
     public double sumTransactions() {
