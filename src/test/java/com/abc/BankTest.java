@@ -51,4 +51,35 @@ public class BankTest {
         assertEquals(170.0, bank.totalInterestPaid(), DOUBLE_DELTA);
     }
 
+    //first customer success check
+    @Test
+    public void testGetFirstCustomerSuccess(){
+        Bank bank = new Bank();
+        Customer customer1 = new Customer("Alice");
+        Customer customer2 = new Customer("Bob");
+
+        bank.addCustomer(customer1);
+        bank.addCustomer(customer2);
+
+        assertEquals("Alice", bank.getFirstCustomer());
+    }
+
+    @Test
+    public void testGetFirstCustomerNoCustomer(){
+        Bank bank = new Bank();
+        //As there is no customer should return "Error"
+        assertEquals("Error", bank.getFirstCustomer());
+    }
+
+    @Test
+    public void testGetFirstCustomerNullCustomers(){
+        Bank bank = new Bank();
+
+        //manually setting customers to null
+        bank.customers = null;
+
+        assertEquals("Error", bank.getFirstCustomer());
+
+    }
+
 }
