@@ -7,6 +7,7 @@ package com.abc;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 
 import static org.junit.Assert.assertTrue;
 
@@ -32,6 +33,7 @@ public class AccountTest {
 
 
     @Test
+    @DisplayName("Should successfully transfer amount between two accounts belonging to the same customer")
     public void testTransferMethod() {
         // Arrange: Create two accounts for the customer
         Account fromAccount = new Account(Account.CHECKING);
@@ -51,6 +53,61 @@ public class AccountTest {
 
         // Optionally: Verify the account list size
         assertEquals(2, customer.getAccounts().size()); // Ensure the customer has 2 accounts
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    @DisplayName("Should throw IllegalArgumentException when transferring to a null account")
+    public void testTransferToNullAccount() {
+        // Setup
+        Customer customer = new Customer("John");
+        Account account1 = new Account(Account.CHECKING);
+        customer.openAccount(account1);
+
+        // Attempt to transfer to a null account
+        account1.transfer(null, 100.0, customer);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    @DisplayName("Should throw IllegalArgumentException when transferring to the same account")
+    public void testTransferToSameAccount() {
+        // Setup
+        Customer customer = new Customer("John");
+        Account account1 = new Account(Account.CHECKING);
+        customer.openAccount(account1);
+
+        // Attempt to transfer to the same account
+        account1.transfer(account1, 100.0, customer);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    @DisplayName("Should throw IllegalArgumentException when transferring between accounts of different customers")
+    public void testTransferToAccountNotBelongingToCustomer() {
+        // Setup
+        Customer customer1 = new Customer("Praajna");
+        Account account1 = new Account(Account.CHECKING);
+        customer1.openAccount(account1);
+
+        Customer customer2 = new Customer("Nithin");
+        Account account2 = new Account(Account.SAVINGS);
+        customer2.openAccount(account2);
+
+        // Attempt to transfer between accounts belonging to different customers
+        account1.transfer(account2, 100.0, customer1);
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    @DisplayName("Should throw IllegalArgumentException when transferring a negative amount")
+    public void testTransferNegativeAmount() {
+        // Setup
+        Customer customer = new Customer("John");
+        Account account1 = new Account(Account.CHECKING);
+        Account account2 = new Account(Account.SAVINGS);
+        customer.openAccount(account1);
+        customer.openAccount(account2);
+
+        // Attempt to transfer a negative amount
+        account1.transfer(account2, -100.0, customer);
     }
 
 

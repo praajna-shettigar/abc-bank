@@ -96,13 +96,10 @@ public void withdraw(double amount) {
         }
 
         // Transaction execution with rollback handling
-        try {
-            this.withdraw(amount);
-            toAccount.deposit(amount);
-        } catch (IllegalArgumentException ex) {
-            // Handle rollback in case of failure
-            throw new IllegalStateException("Transfer failed: " + ex.getMessage());
-        }
+
+        this.withdraw(amount);
+        toAccount.deposit(amount);
+
     }
 
 

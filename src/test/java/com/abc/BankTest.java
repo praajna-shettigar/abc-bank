@@ -1,6 +1,7 @@
 package com.abc;
 
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,6 +9,7 @@ public class BankTest {
     private static final double DOUBLE_DELTA = 1e-15;
 
     @Test
+    @DisplayName("Generate customer summary for a bank with a single customer")
     public void customerSummary() {
         Bank bank = new Bank();
         Customer john = new Customer("John");
@@ -18,6 +20,7 @@ public class BankTest {
     }
 
     @Test
+    @DisplayName("Calculate interest for a checking account")
     public void checkingAccount() {
         Bank bank = new Bank();
         Account checkingAccount = new Account(Account.CHECKING);
@@ -30,6 +33,7 @@ public class BankTest {
     }
 
     @Test
+    @DisplayName("Calculate interest for a savings account")
     public void savings_account() {
         Bank bank = new Bank();
         Account checkingAccount = new Account(Account.SAVINGS);
@@ -41,6 +45,7 @@ public class BankTest {
     }
 
     @Test
+    @DisplayName("Calculate interest for a maxi-savings account")
     public void maxi_savings_account() {
         Bank bank = new Bank();
         Account checkingAccount = new Account(Account.MAXI_SAVINGS);
@@ -53,6 +58,7 @@ public class BankTest {
 
     //Super Max saving accounts
     @Test
+    @DisplayName("Calculate interest for a super-savings account")
     public void super_maxi_saving_account(){
         Bank bank = new Bank();
         Account checkingAccount = new Account(Account.SUPER_SAVINGS);
@@ -67,6 +73,7 @@ public class BankTest {
 
     //first customer success check
     @Test
+    @DisplayName("Retrieve the first customer in the customer list (success case)")
     public void testGetFirstCustomerSuccess() {
         Bank bank = new Bank();
         Customer customer1 = new Customer("Alice");
@@ -79,6 +86,7 @@ public class BankTest {
     }
 
     @Test(expected = IllegalStateException.class)
+    @DisplayName("Attempt to retrieve the first customer when no customers exist")
     public void testGetFirstCustomerWithNoCustomers() {
         Bank bank = new Bank();
 
@@ -87,6 +95,7 @@ public class BankTest {
 
 
     @Test(expected = IllegalStateException.class)
+    @DisplayName("Attempt to retrieve the first customer when the customer list is null")
     public void testGetFirstCustomerNullCustomers() {
         Bank bank = new Bank();
 
